@@ -32,6 +32,8 @@ type SimulationResponse = {
 
 type Preset = "solar" | "binary" | "scatter";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000";
+
 const presets: Record<Preset, Body[]> = {
   solar: [
     { x: 450, y: 400, vx: 0, vy: 45, mass: 333000, radius: 20, color: "#fdb813" },
@@ -234,7 +236,7 @@ export default function Home() {
     let active = true;
     const checkHealth = async () => {
       try {
-        const response = await fetch("/api/health");
+        const response = await fetch(`${API_URL}/api/health`);
         if (!response.ok) throw new Error(`Backend returned ${response.status}`);
         if (active) {
           setConnected(true);
@@ -254,7 +256,7 @@ export default function Home() {
     const interval = window.setInterval(() => {
       if (!active || !runningRef.current || busyRef.current || !connected) return;
       busyRef.current = true;
-      void fetch("/api/simulate", {
+      void fetch(`${API_URL}/api/simulate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
