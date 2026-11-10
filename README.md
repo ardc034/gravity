@@ -24,8 +24,10 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The frontend expects the
-API at `http://127.0.0.1:8000`; set `NEXT_PUBLIC_API_URL` to override it.
+Set `BACKEND_URL=http://127.0.0.1:8000` in the frontend server's environment,
+then open [http://localhost:3000](http://localhost:3000). The frontend proxies
+API requests to FastAPI server-side; on Vercel, `BACKEND_URL` is injected by
+the frontend service binding.
 
 ## API
 
